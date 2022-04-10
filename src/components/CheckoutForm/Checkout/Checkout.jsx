@@ -1,5 +1,7 @@
 import React,{useState, useEffect } from 'react'
-import { Paper, Stepper, Step, StepLabel, Typography, CircularProgress, Divider, Button} from '@material-ui/core'
+import { Paper, Stepper, Step, StepLabel, Typography, CircularProgress, Divider, Button, CssBaseline} from '@material-ui/core'
+
+import { useHistory } from 'react-router-dom'
 
 import { commerce } from '../../../lib/commerce'
 import useStyles from './styles'
@@ -8,12 +10,13 @@ import PaymentForm from '../PaymentForm'
 
 const steps = ['Shipping adress', 'Payment details']
 
-const Checkout = ({ cart }) => {
+const Checkout = ({ cart, order, onCaptureCheckout, error }) => {
 
   const [activeStep, setActiveStep] = useState(0)
   const [checkoutToken, setCheckoutToken] = useState(null)
   const [shippingData, setShippingData] = useState({})
   const classes = useStyles()
+  const history = useHistory
 
   useEffect(() => {
     const generateToken = async () => {
@@ -22,6 +25,7 @@ const Checkout = ({ cart }) => {
 
         setCheckoutToken(token)
       } catch (error) {
+        history.pushState()
 
       }
     }
@@ -46,9 +50,12 @@ const Checkout = ({ cart }) => {
 
   const Form = () => activeStep === 0 
     ? <AddressForm checkoutToken={checkoutToken} next={next}/>
-    : <PaymentForm shippingData={shippingData} checkoutToken={checkoutToken} backStep={backStep}/>
+    : <PaymentForm shippingData={shippingData} checkoutToken={checkoutToken} nextStep={nextStep} backStep={backStep} onCaptureCheckout={onCaptureCheckout}/>
   return (
     <>
+
+    <CssBaseline/>
+
       <div className={classes.toolbar}/>
       <main classeName={classes.layout}>
         <Paper className={classes.paper} sm={3}>
