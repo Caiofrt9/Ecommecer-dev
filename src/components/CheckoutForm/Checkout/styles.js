@@ -8,10 +8,10 @@ export default makeStyles(theme => ({
   layout: {
     marginTop: '5%',
     width: 'auto',
-    marginLeft: theme.spacing(3),
+    marginLeft: theme.spacing(2),
     marginRight: theme.spacing(2),
     [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
-      width: 300,
+      width: 600,
       marginLeft: 'auto',
       marginRight: 'auto'
     }
